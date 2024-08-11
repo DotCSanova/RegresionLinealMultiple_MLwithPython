@@ -7,6 +7,7 @@ import numpy as np #Para realizar cálculos numéricos eficientes con datos (nos
 import pandas as pd #Ofrece el objeto DataFrame, que nos permite trabajar con datos tabulares enriquecidos con etiquetas en filas y columnas.
 import pylab as pl #Junta en un mismo espacio de nombres funciones de MatplotLib y Numpy, asemejándose a Matlab
 from sklearn.model_selection import train_test_split
+from sklearn import linear_model
 #endregion
 
 #region Descarga datos
@@ -103,14 +104,30 @@ X = extracted_data[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMP
 Y = extracted_data['CO2EMISSIONS']
 
 X_train, X_test, y_train, y_test = train_test_split( X,
-                                                    Y.values.reshape(-1,1),
+                                                    Y,
                                                     train_size=0.8,
                                                     shuffle = True,
     
 )
 
-print(X_train)
-#endregion
-
+#Al separar de este modo observamos como la división del 80/20% se cumple exactamente.
 
 #endregion
+#endregion
+
+#region Creación y entrenamiento del modelo
+
+#Vamos a crear el modelo en base a la separación del método 2.
+
+#Para crear un modelo de regresión lineal hay que importar previamente el paquete LinearRegresion de Sklearn.
+
+modelo = linear_model.LinearRegression()
+modelo.fit(X_train, y_train)
+
+
+#Si hemos separado previamente los datos con el Método 1, el entrenamiento se hace de la siguiente forma
+
+x=np.asanyarray(extracted_data[['ENGINESIZE','CYLINDERS']])
+print(x)
+print(x.shape)
+
