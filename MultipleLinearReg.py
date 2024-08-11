@@ -127,7 +127,35 @@ modelo.fit(X_train, y_train)
 
 #Si hemos separado previamente los datos con el Método 1, el entrenamiento se hace de la siguiente forma
 
-x=np.asanyarray(extracted_data[['ENGINESIZE','CYLINDERS']])
-print(x)
-print(x.shape)
+#modelo = linear_model.LinearRegression()
+#x = np.asanyarray(train[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']])
+#y = np.asanyarray(train[['CO2EMISSIONS']])
+#modelo.fit (x, y)
+
+#En este caso vemos como se transforman los dataframes en arrays. No es extrictamente necesario ya que sklearn puede trabajar con Dataframes.
+#Esto es ya que a de hace esta transformación de forma interna. Sin embargo, aunque Sklearn acepta Dataframes de Pandas, dado que de forma interna los 
+#transforma a arrays de numpy, algunos desarrolladores prefieren hacerlo de forma previa para asegurarse de que los datos están en el formato esperado.
+
+#endregion
+
+#region Imprimir Coeff y Intercep
+
+print("Coeficientes:", modelo.coef_)
+print("Intercept o Sesgo:",modelo.intercept_)
+
+#La intersección o intercept es el valor theta0, mientras que los coeficientes son el resto de theta que acompañan a a los X (variables indep).
+#Estos valores son los que conforman el hiperplano de la regresión lineal múltiple, Sklearn los estima a partir de los datos mediante el método
+#OLS (Ordinary Least Squares). 
+# 
+# !!! IMPORTANTE TEORÍA -> OLS (Ordinary Least Squares) intenta minimizar la suma de los errores cuadrados (SSE)
+# o el error cuadrático medio (MSE) entre la variable objetivo (y) y nuestra salida predicha (y hat) a lo largo de todas las muestras en el conjunto de datos.
+# Esto se puede conseguir mediante dos enfoques:
+#   1)Resolver los parámetros del modelo analíticamente mediante operaciones de álgebra lineal. 
+#   2)Usando algoritmos de optimización (por ejemplo, el Descenso de gradiente)
+
+#endregion
+
+#region Predicción de variable dependiente
+
+#endregion
 
