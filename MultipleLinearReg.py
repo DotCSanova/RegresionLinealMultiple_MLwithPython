@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt #Para representación de gráficas
 import numpy as np #Para realizar cálculos numéricos eficientes con datos (nos da los ndarray por ej.)
 import pandas as pd #Ofrece el objeto DataFrame, que nos permite trabajar con datos tabulares enriquecidos con etiquetas en filas y columnas.
 import pylab as pl #Junta en un mismo espacio de nombres funciones de MatplotLib y Numpy, asemejándose a Matlab
+from sklearn.model_selection import train_test_split
 #endregion
 
 #region Descarga datos
@@ -68,5 +69,48 @@ plt.scatter(extracted_data.FUELCONSUMPTION_CITY, extracted_data.CO2EMISSIONS, co
 plt.xlabel('FuelConsumption in the city')
 plt.ylabel('CO2 Emissions')
 plt.show()
+
+#endregion
+
+#region División de data en train y test
+
+#La división de la data en train y test split es muy importante ya que nos permite conocer de forma fiel el comportamiento del modelo fuera de la muestra (out-of-sample accuracy).
+#Dado que se divide la data en train para entrenar el modelo y test para testear, el modelo no conoce los datos del set de test, por lo que a la hora de evaluar es perfecto ya que 
+#conocemos los resultados de este set y para el modelo son datos fuera de la muestra.
+
+#Conozco dos formas de hacer el train/test split, presento ambas a continuación:
+
+#region Método 1 train/test split
+
+#mask = np.random.rand(len(extracted_data)) < 0.8 #Primero creamos una máscara. Se crea unn array de números aletorios entre 0 y 1 con la longitud del dataframe de datos extraídos. Luego, se pone la condición de  <0.8 ya que vamos a coger 80% del dataset para entrenamiento y el resto (20)para test
+
+#La variable mask es un array de booleanos (true o false) según se cumpla la condición de que los números aleatorios generados sean < 0.8 o > 0.8.
+
+#train = extracted_data[mask] #Aplico la máscara al set de datos para que de esta forma, todas las filas que sean TRUE se guarden formando el set de train
+#test = extracted_data[~mask] #Aplico la máscara al set de datos para que de esta forma, todas las filas que sean FALSE se guarden formando el set de test
+
+#!!IMPORTANTE!! -> Cuando aplicas una máscara booleana a un DataFrame en Pandas, el resultado es un nuevo DF que contiene solo las filas donde la máscara es true (o false si se pide así como en el set test)
+
+#!! IMPORTANTE!! -> A destacar que con este método no estamos realmente cogiendo el 80% y 20% del set de datos para crear el tain set y test set respectivamente, ya que los números generados son aleatorios y no tiene por qué haber una distribución uniforme de 80% números que cumplan la condición < 0.8
+
+#endregion
+
+#region Metodo 2 train/test split de Scikit-learn
+
+#Sklearn nos aporta un paquete o funcionalidad que nos permite hacer fácil y rápidamente la separación en train/test
+
+X = extracted_data[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']]
+Y = extracted_data['CO2EMISSIONS']
+
+X_train, X_test, y_train, y_test = train_test_split( X,
+                                                    Y.values.reshape(-1,1),
+                                                    train_size=0.8,
+                                                    shuffle = True,
+    
+)
+
+print(X_train)
+#endregion
+
 
 #endregion
