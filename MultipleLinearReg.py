@@ -101,10 +101,10 @@ plt.show()
 #Sklearn nos aporta un paquete o funcionalidad que nos permite hacer fácil y rápidamente la separación en train/test
 
 X = extracted_data[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']]
-Y = extracted_data['CO2EMISSIONS']
+y = extracted_data['CO2EMISSIONS']
 
 X_train, X_test, y_train, y_test = train_test_split( X,
-                                                    Y,
+                                                    y,
                                                     train_size=0.8,
                                                     shuffle = True,
     
@@ -140,7 +140,7 @@ modelo.fit(X_train, y_train)
 
 #region Imprimir Coeff y Intercep
 
-print("Coeficientes:", modelo.coef_)
+print("Coeficiente:", [(col, float(coef)) for col, coef in zip(X.columns, modelo.coef_.flatten())]) #De esta forma se muestra una tupla de Columna (variable indep) con su coeficiente.
 print("Intercept o Sesgo:",modelo.intercept_)
 
 #La intersección o intercept es el valor theta0, mientras que los coeficientes son el resto de theta que acompañan a a los X (variables indep).
@@ -155,7 +155,20 @@ print("Intercept o Sesgo:",modelo.intercept_)
 
 #endregion
 
-#region Predicción de variable dependiente
+#region Predicción de variable dependiente.
+
+y_pred = modelo.predict(X_test) #Predecimos la variable dependiente CO2EMISSIONS para las filas del DF de X_test (que contiene las variable independiente) con el modelo previamente entrenado.
+
+print(y_pred)
+print(y_pred.shape)
+
+
+#endregion
+
+#region Imprimir hiperplano
+
+#Imprimir ecuación del plano
+#print('Ecuación del plano: y = {}*ENGINE SIZE + {}*FUELCONSUMPTION + {}'.format(round(modelo.coef_[0][0],3)))
 
 #endregion
 
