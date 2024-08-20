@@ -100,8 +100,8 @@ plt.show()
 
 #Sklearn nos aporta un paquete o funcionalidad que nos permite hacer fácil y rápidamente la separación en train/test
 
-X = extracted_data[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']]
-y = extracted_data['CO2EMISSIONS']
+X = extracted_data[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']] #Resultado -> DF
+y = extracted_data['CO2EMISSIONS'] #Resultado -> Serie
 
 X_train, X_test, y_train, y_test = train_test_split( X,
                                                     y,
@@ -157,18 +157,27 @@ print("Intercept o Sesgo:",modelo.intercept_)
 
 #region Predicción de variable dependiente.
 
-y_pred = modelo.predict(X_test) #Predecimos la variable dependiente CO2EMISSIONS para las filas del DF de X_test (que contiene las variable independiente) con el modelo previamente entrenado.
+#Con Método 1 de separación:
 
-print(y_pred)
-print(y_pred.shape)
+y_pred = modelo.predict(X_test) #Predecimos la variable dependiente CO2EMISSIONS para las filas del DF de X_test (que contiene las variable independiente) con el modelo previamente entrenado. El resultado es un arreglo o array unidimensional (214,). La coma al final indica que es un arreglo unidimensional, con 214 elementos.
+print(y_pred) #Imprimimos en pantalla los valores predichos de CO2EMISSIONS
+print(y_pred.shape) #Imprimimos en pantalla la dimensión del array, por motivos de entender correctamente lo que devuelve la función predict().
 
+#Con Método 2 de separación:
+
+#y_pred= modelo.predict(test[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_CITY','FUELCONSUMPTION_HWY']])
 
 #endregion
 
 #region Imprimir hiperplano
 
 #Imprimir ecuación del plano
-#print('Ecuación del plano: y = {}*ENGINE SIZE + {}*FUELCONSUMPTION + {}'.format(round(modelo.coef_[0][0],3)))
+
+print('Ecuación del plano: y = {}*ENGINE SIZE + {}*CYLINDERS + {}*FUELCONSUMPTION_CITY + {}*FUELCONSUMPTION_HWY + {} '.format(round(modelo.coef_[0][0],3)))
+
+#endregion
+
+#region Datos de rendimiento del modelo. MSE y R^2
 
 #endregion
 
