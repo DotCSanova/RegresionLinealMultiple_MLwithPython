@@ -8,6 +8,8 @@ import pandas as pd #Ofrece el objeto DataFrame, que nos permite trabajar con da
 import pylab as pl #Junta en un mismo espacio de nombres funciones de MatplotLib y Numpy, asemejándose a Matlab
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
+from sklearn.metrics import r2_score
+from mpl_toolkits.mplot3d import Axes3D
 #endregion
 
 #region Descarga datos
@@ -173,11 +175,23 @@ print(y_pred.shape) #Imprimimos en pantalla la dimensión del array, por motivos
 
 #Imprimir ecuación del plano
 
-print('Ecuación del plano: y = {}*ENGINE SIZE + {}*CYLINDERS + {}*FUELCONSUMPTION_CITY + {}*FUELCONSUMPTION_HWY + {} '.format(round(modelo.coef_[0][0],3)))
+print('Ecuación del plano: y = {}*ENGINE SIZE + {}*CYLINDERS + {}*FUELCONSUMPTION_CITY + {}*FUELCONSUMPTION_HWY + {} '.format(round(modelo.coef_[0],3), round(modelo.coef_[1],3), round(modelo.coef_[2],3), round(modelo.coef_[3],3), round(modelo.intercept_,3)))
+
+#Al tener 4 variables independientes es complejo graficar el plano en 3D, haría falta procesos de reducción de dimesnionalidad.
+# Probar a hacerlo con otro modelo de dos variables independientes. Referencia: https://www.youtube.com/watch?v=aWRypv0teBc 
 
 #endregion
 
-#region Datos de rendimiento del modelo. MSE y R^2
+#region Datos de rendimiento del modelo. MSE y R^2.
+
+#MSE 
+
+print("Mean Squared Error (MSE) : %.2f" % np.mean((y_pred - y_test) ** 2))
+
+#R^2 o variance score, 1 is perfect prediction
+
+print('Variance score: %.2f' % modelo.score(X_test, y_test))
+
 
 #endregion
 
